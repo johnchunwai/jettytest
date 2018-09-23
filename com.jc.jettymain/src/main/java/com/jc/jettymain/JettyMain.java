@@ -11,7 +11,10 @@ public class JettyMain {
 //        final Server server = new MinimalServletServer().getServer();
 //        final Server server = new OneContextServer().getServer();
 //        final Server server = new ManyContextServer().getServer();
-        final Server server = new OneServletContextServer().getServer();
+//        final Server server = new OneServletContextServer().getServer();
+//        final Server server = new JerseyServer().getServer();
+//        final Server server = new JerseyServerWithErrorMapper().getServer();
+        final Server server = new JerseyServerWithFilterWithErrorMapper().getServer();
 
         server.start();
         server.join();
