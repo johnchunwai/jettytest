@@ -41,6 +41,10 @@ public class AuthReqFilter implements ContainerRequestFilter {
 //                    .build());
             throw new IOException(new AppException(HttpServletResponse.SC_UNAUTHORIZED, "please auth", "no session"));
         }
+        // NOTE: first call updates the header; 2nd call adds a new one. Since the global filter already injects the
+        // header, the 2nd call will add a 2nd header with the same name. If we use {@code @HeaderParam} to parse it,
+        // we'll only get the 1st one injected by global filter.
+//        requestContext.getHeaders().putSingle("X-Inject", "Authed");
         requestContext.getHeaders().add("X-Inject", "Authed");
     }
 }

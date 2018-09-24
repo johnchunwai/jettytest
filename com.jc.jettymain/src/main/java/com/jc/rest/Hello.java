@@ -8,7 +8,11 @@ import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
+import java.util.List;
+import java.util.stream.Collectors;
 
 // This Path is a must have. Or it won't be parsed by Jersey.
 @Path("/")
@@ -19,7 +23,10 @@ public class Hello {
     public HelloDto getHello(@HeaderParam("X-Inject") String injectedHeader) {
         final HelloDto helloDto = new HelloDto();
         helloDto.setGreetings("hello");
-        updateHelloDtoCommon(helloDto, injectedHeader);
+        helloDto.setTimestamp(System.currentTimeMillis());
+        if (injectedHeader != null) {
+            helloDto.setInjectedHeaders(injectedHeader);
+        }
         return helloDto;
     }
 
@@ -27,7 +34,10 @@ public class Hello {
      * This method goes through filters tagged with {@code @Authed}.
      *
      * @param sid
-     * @param injectedHeader
+     * @param headers Since the global filter already injects the {@code X-Inject} header, the
+     *                {@coce AuthReqFilter} will add a 2nd header with the same name. If we use {@code @HeaderParam}
+     *                to parse it, we'll only get the 1st one injected by global filter. Therefore, we use {@code
+     *                Context} to get all headers.
      * @return
      *
      * @see Authed
@@ -38,10 +48,14 @@ public class Hello {
     @Path("hello/authed")
     @Produces(MediaType.APPLICATION_JSON)
     public HelloDto getHelloAuthed(@HeaderParam("X-SID") String sid,
-                                   @HeaderParam("X-Inject") String injectedHeader) {
+                                   @Context HttpHeaders headers) {
         final HelloDto helloDto = new HelloDto();
         helloDto.setGreetings("hello sid=" + sid);
-        updateHelloDtoCommon(helloDto, injectedHeader);
+        helloDto.setTimestamp(System.currentTimeMillis());
+        if (headers != null) {
+            final List<String> injectedHeaders = headers.getRequestHeader("X-Inject");
+            helloDto.setInjectedHeaders(injectedHeaders.stream().collect(Collectors.joining("; ")));
+        }
         return helloDto;
     }
 
@@ -58,12 +72,5 @@ public class Hello {
     @Produces(MediaType.APPLICATION_JSON)
     public HelloDto getHelloDyn(@HeaderParam("X-Inject") String injectedHeader) {
         return getHello(injectedHeader);
-    }
-
-    private void updateHelloDtoCommon(final HelloDto helloDto, final String injectedHeader) {
-        helloDto.setTimestamp(System.currentTimeMillis());
-        if (injectedHeader != null) {
-            helloDto.setInjectedHeaders(injectedHeader);
-        }
     }
 }

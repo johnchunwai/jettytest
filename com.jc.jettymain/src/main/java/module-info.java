@@ -7,7 +7,7 @@ open module com.jc.jettymain {
     requires static java.ws.rs;
     requires jersey.common;
     requires java.xml.bind;
-    requires javax.annotation.api;
+    requires static javax.annotation.api;
 //    requires jersey.media.json.jackson;
 //    requires jersey.hk2;
 //    requires jersey.container.jetty.http;

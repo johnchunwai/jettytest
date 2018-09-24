@@ -11,9 +11,9 @@ import java.io.IOException;
  */
 @Provider
 @PreMatching
-public class PrematchGlobalRespFilter implements ContainerRequestFilter {
+public class PrematchGlobalReqFilter implements ContainerRequestFilter {
     @Override
     public void filter(final ContainerRequestContext requestContext) throws IOException {
-        requestContext.getHeaders().add("X-Inject", "PrematchGlobalRespFilter");
+        requestContext.getHeaders().add("X-Inject", this.getClass().toString());
     }
 }
