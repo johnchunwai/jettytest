@@ -2,7 +2,7 @@ package com.jc.exception;
 
 import lombok.Getter;
 
-//@Getter
+@Getter
 public class AppException extends Exception {
     private static final long serialVersionUID = -4226709204452163869L;
 
@@ -20,12 +20,12 @@ public class AppException extends Exception {
         this.statusCode = statusCode;
         this.debugMessage = debugMessage;
     }
-
-    public int getStatusCode() {
-        return this.statusCode;
-    }
-
-    public String getDebugMessage() {
-        return this.debugMessage;
-    }
+//
+//    public int getStatusCode() {
+//        return this.statusCode;
+//    }
+//
+//    public String getDebugMessage() {
+//        return this.debugMessage;
+//    }
 }

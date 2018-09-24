@@ -1,11 +1,14 @@
 package com.jc.dto;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
-//@Getter
-//@Setter
+@Getter
+@Setter
 public class ErrorMessageDto {
     private static final boolean INCLUDE_CALLSTACK = false;
 
@@ -34,35 +37,35 @@ public class ErrorMessageDto {
         return "";
     }
 
-    public int getStatusCode() {
-        return statusCode;
-    }
-
-    public void setStatusCode(final int statusCode) {
-        this.statusCode = statusCode;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(final String message) {
-        this.message = message;
-    }
-
-    public String getDebugMessage() {
-        return debugMessage;
-    }
-
-    public void setDebugMessage(final String debugMessage) {
-        this.debugMessage = debugMessage;
-    }
-
-    public String getCallStack() {
-        return callStack;
-    }
-
-    public void setCallStack(final String callStack) {
-        this.callStack = callStack;
-    }
+//    public int getStatusCode() {
+//        return statusCode;
+//    }
+//
+//    public void setStatusCode(final int statusCode) {
+//        this.statusCode = statusCode;
+//    }
+//
+//    public String getMessage() {
+//        return message;
+//    }
+//
+//    public void setMessage(final String message) {
+//        this.message = message;
+//    }
+//
+//    public String getDebugMessage() {
+//        return debugMessage;
+//    }
+//
+//    public void setDebugMessage(final String debugMessage) {
+//        this.debugMessage = debugMessage;
+//    }
+//
+//    public String getCallStack() {
+//        return callStack;
+//    }
+//
+//    public void setCallStack(final String callStack) {
+//        this.callStack = callStack;
+//    }
 }
