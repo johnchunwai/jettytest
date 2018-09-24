@@ -12,6 +12,7 @@ import lombok.Setter;
 public class HelloDto {
     private long timestamp;
     private String greetings;
+    private String injectedHeaders;
 
     public HelloDto(final long timestamp, final String greetings) {
         this.timestamp = timestamp;
@@ -35,5 +36,13 @@ public class HelloDto {
 
     public void setGreetings(final String greetings) {
         this.greetings = greetings;
+    }
+
+    public String getInjectedHeaders() {
+        return injectedHeaders;
+    }
+
+    public void setInjectedHeaders(final String injectedHeaders) {
+        this.injectedHeaders = injectedHeaders;
     }
 }

@@ -12,7 +12,10 @@ public class JerseyServerWithFilterWithErrorMapper implements IServer {
         final Server server = new Server(8080);
 
         final ResourceConfig config = new ResourceConfig();
-        config.packages("com.jc.rest", "com.jc.exception.mapper");
+        config.packages("com.jc.rest",
+                "com.jc.exception.mapper",
+                "com.jc.binding",
+                "com.jc.filter");
 
         // For debugging only
 //        config.property(ServerProperties.TRACING, "ALL");

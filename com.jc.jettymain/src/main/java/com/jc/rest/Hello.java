@@ -2,8 +2,10 @@ package com.jc.rest;
 
 
 import com.jc.dto.HelloDto;
+import com.jc.binding.Authed;
 
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
@@ -14,11 +16,54 @@ public class Hello {
     @GET
     @Path("hello")
     @Produces(MediaType.APPLICATION_JSON)
-    public HelloDto getHello() {
-//        final HelloDto helloDto = new HelloDto(System.currentTimeMillis(), "hello Jersey!");
+    public HelloDto getHello(@HeaderParam("X-Inject") String injectedHeader) {
         final HelloDto helloDto = new HelloDto();
-        helloDto.setGreetings("Hello Jersey");
-        helloDto.setTimestamp(System.currentTimeMillis());
+        helloDto.setGreetings("hello");
+        updateHelloDtoCommon(helloDto, injectedHeader);
         return helloDto;
+    }
+
+    /**
+     * This method goes through filters tagged with {@code @Authed}.
+     *
+     * @param sid
+     * @param injectedHeader
+     * @return
+     *
+     * @see Authed
+     * @see com.jc.filter.AuthReqFilter
+     */
+    @Authed
+    @GET
+    @Path("hello/authed")
+    @Produces(MediaType.APPLICATION_JSON)
+    public HelloDto getHelloAuthed(@HeaderParam("X-SID") String sid,
+                                   @HeaderParam("X-Inject") String injectedHeader) {
+        final HelloDto helloDto = new HelloDto();
+        helloDto.setGreetings("hello sid=" + sid);
+        updateHelloDtoCommon(helloDto, injectedHeader);
+        return helloDto;
+    }
+
+    /**
+     * {@code DynRespFilter} will at runtime bind this method with the DynRespFilter.
+
+     * @param injectedHeader
+     * @return
+     *
+     * @see com.jc.binding.DynamicFilterBinding
+     */
+    @GET
+    @Path("hello/dyn")
+    @Produces(MediaType.APPLICATION_JSON)
+    public HelloDto getHelloDyn(@HeaderParam("X-Inject") String injectedHeader) {
+        return getHello(injectedHeader);
+    }
+
+    private void updateHelloDtoCommon(final HelloDto helloDto, final String injectedHeader) {
+        helloDto.setTimestamp(System.currentTimeMillis());
+        if (injectedHeader != null) {
+            helloDto.setInjectedHeaders(injectedHeader);
+        }
     }
 }
